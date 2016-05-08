@@ -17,7 +17,7 @@ Our goal was to basically develop a visualizer for data structures. Currently th
 5. Convert this .tex file to .pdf using pdfLatex or any other software or online resource to visualize the data structure.
 
 
-## Current Limitations.
+## Current Limitations
 - For the Binary Tree: the user can give at most 15 numbers, which means the tree can currently have at most 4 levels.
 
 ## Future Development Ideas
