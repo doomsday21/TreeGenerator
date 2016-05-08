@@ -29,6 +29,6 @@ Here are a few list of possible improvements to this project, you're welcome to 
 
 ## List of Contributors
 Thank you everyone for all your contributions!
-- Initial
+###Initial
 1. Anusha Fatima (Creating of all the individual modules and relevant functions, developing code for user input, documentation and debugging)
 2. Syed Shariq Ali (Created the module which outputs the actual latex code for each of the data structures, integrated all the modules together, documentation and debugging)
