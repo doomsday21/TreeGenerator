@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{TreeGenerator}
+\author{Anusha Fatima and Syed Shariq Ali }
+\date{May 2016}
+
+\begin{document}
+
+\maketitle
+
+\section{Instructions}
+
+Please load the Main folder in ghci and call the main function. 
+The user will be prompted to choose a type of tree. These are the following options:
+\begin{enumerate}
+    \item Binary Tree
+    \item BST 
+    \item Red Black Tree
+\end{enumerate}
+
+The user is then prompted to input the numbers separated by space. If the user is interested in a Binary Tree, the numbers must be given in a heap order with the root node followed by its left child and right child , followed by the left child of left child and the right child of left child and so on. For the other two cases, the program creates the correct tree for the numbers and outputs its latex code.  \\
+
+The file generated is a tex file with the name of the type the user chose. The file can be found in treeGenerator folder. There is one restriction in the visualization of Binary Tree, the user can give a list of at most 15 numbers which means the final tree can have 4 levels. The program will malfunction otherwise. 
+
+\section{Further Development}
+Here are a list of possible improvements to this project: 
+\begin{enumerate}
+    \item Allow for other data structures like 2-4 trees, hash tables etc.
+    \item Remove the restriction on Binary tree.
+    \item Allow for performing simple operations on a given tree such as rotation , insertion , removal etc.
+    \item Give user the ability to construct incorrect BST and Red Black Trees.
+\end{enumerate}
+
+\section{Division of Work}
+\textbf{Anusha } :
+\begin{enumerate}
+    \item Created the modules and added relevant functions to convert an array of integers into the relevant trees. 
+    \item Documentation and Debugging
+    \item Added code for user input
+\end{enumerate}
+\textbf{Shariq} :
+\begin{enumerate}
+    \item Wrote code to output latex for the different types of Trees
+    \item Debugging
+    \item Integrated modules together
+\end{enumerate}
+
+\end{document}
+

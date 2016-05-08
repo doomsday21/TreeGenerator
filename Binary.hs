@@ -50,91 +50,65 @@ hasLeft bt@(N _ lt rt) n = lt /= E
 hasRight bt@(N _ lt rt) n = rt /= E
 
 calLeft:: Int -> [Int]-> Int
+--takes input the root node of the tree or the subtree
+--calculates the index of its left child in the list 
+--outputs the left child value
 calLeft i lst 
     | 2*i +1 > length lst-1 = -100 
     | otherwise =  lst!! (2*i +1)
 
 calRight:: Int -> [Int]-> Int
+--takes input the root node of the tree or the subtree
+--calculates the index of its right child in the list 
+--outputs the right child value
 calRight i lst 
     | 2*i +2 > length lst-1 = -100 
     | otherwise =  lst!! (2*i +2)
 
 leftInsert::BinaryTree -> Int ->BinaryTree
+--inserts the child at leftmost spot 
 leftInsert E n = N n E E 
 leftInsert bst@(N x lt rt) n =N x ( leftInsert lt n) rt
 
 rightInsert::BinaryTree -> Int ->BinaryTree
+--inserts the child at rightmost spot
 rightInsert E n = N n E E 
 rightInsert bst@(N x lt rt) n =N x lt ( rightInsert rt n)
 
 lrInsert:: BinaryTree->Int -> Int -> Int-> BinaryTree
+--inserts the child at left right position
 lrInsert b@(N n lt E) x y z= N n lt (N x (N y E E ) (N z E E))
 lrInsert b@(N n lt rt) x y z= N n (lrInsert lt x y z) rt
 
 rlInsert:: BinaryTree-> Int -> Int -> Int-> BinaryTree 
+--inserts the child at right left position
 rlInsert b@(N n E rt) x y z = N n (N x (N y E E ) (N z E E)) rt
 rlInsert b@(N n lt rt) x y z= N n lt (rlInsert rt x y z) 
 
 inL :: BinaryTree -> Int->[Int] -> BinaryTree
+--adds all left nodes in left subtree
 inL t i lst 
     |calLeft i lst /= -100 = inL (leftInsert t (calLeft i lst)) (2*i+1) lst
     |otherwise = t 
 
 inL' :: BinaryTree -> Int-> [Int] -> BinaryTree
+--adds the left right nodes in the left subtree
 inL' t i lst 
     |calLeft i lst /= -100 = inL' (rlInsert t (calLeft i lst) (calLeft (2*i +1) lst) (calRight (2*i +1) lst)) (2*i+2) lst
     |otherwise = t 
 
 inR' :: BinaryTree -> Int-> [Int] -> BinaryTree
+--adds the right left nodes in the right subtree
 inR' t i lst 
     |calRight i lst /= -100 = inR' (lrInsert t (calRight i lst) (calLeft (2*i +2) lst) (calRight (2*i +2) lst))  (2*i+1) lst
     |otherwise = t 
 
 inR :: BinaryTree -> Int -> [Int] -> BinaryTree
+--adds all the right nodes in the right subtree
 inR t i lst 
     |calRight i lst /= -100 = inR (rightInsert t (calRight i lst)) (2*i+2) lst
     |otherwise = t 
 
 convertToBinary:: [Int]-> BinaryTree 
+--converts an array of Ints into a binary tree
 convertToBinary lst@(x:xs) = inL' (inR' ( inR (inL (N x E E) 0 lst) 0 lst ) 1 lst ) 2 lst
-
-
-
---convertToBinary:: BinaryTree -> [Int] -> BinaryTree
---convertToBinary tree [] = tree
---convertToBinary tree lst@(x:xs)
---    | length lst/= 0 = convertToBinary (iNsert (tree) (take 2 xs)) (drop 2 xs)  
---    |otherwise = tree 
-
---iNsert:: BinaryTree -> [Int] -> BinaryTree
---iNsert tree  [-100 , -100] = tree
---iNsert tree lst
---    | lst!! 0 == -100 = rightInsert tree (lst!!1)
---    | lst!!1 == -100 = leftInsert tree (lst!!0)
---    |otherwise  =  rightInsert ( leftInsert tree (lst!!0) ) (lst!!1)
-
---convertToBinary':: [Int] -> BinaryTree
---convertToBinary' [] = E
---convertToBinary' lst@(x:xs) = iNsert' (N x E E ) xs 
-
-
---iNsert':: BinaryTree -> [Int] -> BinaryTree
---iNsert' tree [] = tree
---iNsert' tree lst 
---    | length lst/= 0 && lst!! 0 == -100 = iNsert' (rightInsert tree (lst!!1) ) (drop 2 lst)
---    | length lst/= 0 && lst!!1 == -100 = iNsert' (leftInsert tree (lst!!0)) (drop 2 lst)
---    |otherwise  =  iNsert' (rightInsert ( leftInsert tree (lst!!0) ) (lst!!1)) (drop 2 lst)
-----insert1 :: BinaryTree -> Int -> BinaryTree
-----insert1 E  n = N n E E 
-----insert1 t@(N x lt rt) n 
-----    | lt == E = N x (insert1 lt n) rt
-----    | rt == E = N x lt (insert1 rt n)
-----    | lt/=E && rt == E = 
-
-
---bstFind:: BinaryTree ->Int->Bool 
---bstFind (E) _ = False;
---bstFind (N x lt rt) n
---    |x==n = True
---    |bstFind lt n /= False = bstFind lt n
---    |bstFind rt n /= False = bstFind rt n 

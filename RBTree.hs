@@ -12,6 +12,19 @@ data C = R | B deriving (Show, Eq, Ord)
 data RB a = Empty | Node C a (RB a) (RB a) deriving (Show, Eq, Ord)
 
 
+convertToRB :: [Int] -> RB Int
+--Takes a list of Ints and generates its corresponding RB tree
+convertToRB lst = convert' Empty lst
+
+convert':: RB Int -> [Int] -> RB Int
+--adds elements of a list into a tree recursively 
+convert' tree [] = tree
+convert' tree lst@(x:xs) 
+    |length lst /= 0 = convert' ( fixit (insert tree x) x ) xs --assuming that a tree is in correct order
+    |otherwise = tree 
+
+--Helper functions 
+
 hasRBLeft Empty = False
 hasRBLeft bt@(Node _ _ lt rt) = lt /= Empty && (root lt /= -100)
 
@@ -20,16 +33,6 @@ hasRBRight bt@(Node _ _ lt rt) = rt /= Empty && (root rt /= -100)
 
 hasRBChildren Empty = False
 hasRBChildren bt@(Node n c lt rt) = (((hasRBRight rt) || (hasRBLeft rt)) || ((hasRBRight lt) || (hasRBLeft lt)))
-
-
-{- Trees for debugging purposes. 
-zz = Node B 2 (Node B 1  Empty E) (Node B 6 (Node R 4  Empty E) (Node R 24 (Node R 12 Empty E) E))
-zz2 = fixit zz 15
-zz3 = insert zz2 15
-
-The question in the pdf.
-question2 = (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' (insert' Empty 1) 24) 2) 6) 4) 12) 25) 19) 10) 5) 3) 13) 8) 21) 23) 22)
--}
 
 --This helper function returns the color of a given RB tree.
 color Empty = B
@@ -146,43 +149,4 @@ fixit rb@(Node col val lt rt) n
        u=getUncle g p
 
 
------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---convention : list of tuples with value followed by color 0(B) or 1 (R)
--- (Int , Char)
-
---insertL::RB Int-> (Int, Int) -> RB Int
---insertL Empty t@(n,col) 
---    | col== 1 =  Node R n Empty Empty 
---    | col== 0 = Node B n Empty Empty
---insertL bst@(Node c x lt rt) t =  Node c x ( insertL lt t ) rt
-
---insertR::RB Int-> (Int, Int) ->RB Int
---insertR Empty t@(n,col) 
---    | col== 1 =  Node R n Empty Empty 
---    | col== 0 = Node B n Empty Empty 
---insertR bst@(Node c x lt rt) t =  Node c x lt ( insertL rt t ) 
-
-
---convertToRB:: RB Int-> [(Int, Int)] -> RB Int
---convertToRB rb [] = rb
---convertToRB rb lst@(x:xs) 
---    | length lst/= 0 && (snd x) == 1= convertToRB (iNSert (Node R (fst x)  (Empty) (Empty)) (take 2 xs)) (drop 2 xs)  
---    | length lst/= 0 && (snd x) == 0= convertToRB (iNSert (Node B (fst x)  (Empty) (Empty)) (take 2 xs)) (drop 2 xs)  
---    | otherwise = rb 
-
-
---iNSert:: RB Int-> [(Int,Int)] -> RB Int
---iNSert tree [( -100 , _) , ( -100 , _ )] = tree
---iNSert tree lst
---    | fst (lst!!0) ==  -100  = insertR tree (lst!!1)
---    | fst (lst!!1) ==  -100  = insertL tree (lst!!0)
---    | otherwise  =  insertR ( insertL tree (lst!!0) ) (lst!!1)
-
-convertToRB :: [Int] -> RB Int
-convertToRB lst = convert' Empty lst
-
-convert':: RB Int -> [Int] -> RB Int
-convert' tree [] = tree
-convert' tree lst@(x:xs) 
-    |length lst /= 0 = convert' ( fixit (insert tree x) x ) xs --assuming that a tree is in correct order
-    |otherwise = tree 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------

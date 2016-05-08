@@ -10,14 +10,28 @@ convertToBST,
 convert
 ) where  
   
-import Binary (BinaryTree(..))
+import Binary (BinaryTree(..)) 
+--importing the BinaryTree structure
 
 type BST = BinaryTree
 
 leaf::Int -> BST
 leaf n = N n E E
+
+--CONVERSION 
+convertToBST :: [Int] -> BST
+--converts a given list of Ints into a BST
+convertToBST lst = convert E lst
+
+convert:: BST -> [Int] -> BST
+--inserts elements from a list into a tree recursively till all elements are inserted
+convert tree [] = tree
+convert tree lst@(x:xs) 
+    |length lst /= 0 = convert ( bstInsert tree x ) xs --assuming that a tree is in correct order
+    |otherwise = tree 
+
+--Helper functions
  
---partb
 bstFind:: BST ->Int->Bool 
 bstFind (E) _ = False;
 bstFind (N x lt rt) n
@@ -25,8 +39,7 @@ bstFind (N x lt rt) n
     |n<x = bstFind lt n
     |n>x = bstFind rt n 
  
- 
---partc
+
 bstInsert:: BST -> Int ->BST
 bstInsert (E) n = N n E E
 bstInsert bst@(N x lt rt) n
@@ -49,7 +62,6 @@ rightInsert bst@(N x lt rt) n
     |otherwise  = N x lt ( rightInsert rt n )
 
 
---partd
 bstRemove:: BST -> Int ->BST
 bstRemove bst@(E) n=E
 bstRemove bst@(N x lt rt) n
@@ -70,12 +82,3 @@ findSuccessor bst@(N x lt rt) n
     | x==n = findSuccessor  rt n
     | otherwise = findSuccessor lt n 
 
---CONVERSION 
-convertToBST :: [Int] -> BST
-convertToBST lst = convert E lst
-
-convert:: BST -> [Int] -> BST
-convert tree [] = tree
-convert tree lst@(x:xs) 
-    |length lst /= 0 = convert ( bstInsert tree x ) xs --assuming that a tree is in correct order
-    |otherwise = tree 
